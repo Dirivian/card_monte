@@ -4,12 +4,12 @@ const d3 = require('d3');
 
 const size = 650;
 const height = 300;
-const cardWidthMultiplier = 2.5;
-const cardHeightMultiplier = 3.5;
+const cardWidthMultiplier = 7.5;
+const cardHeightMultiplier = 10.5;
 const cardSize = 15;
 
-const cardPrimitives = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-const suits = ["♠", "♣", "♥", "♦"];
+const cardPrimitives = ['2','A',  '3'];
+const suits = ["♠"];
 let propsUpdated = false;
 
 function makeCards(suits, cardPrimitives) {
@@ -39,10 +39,11 @@ class cardVis extends D3Component {
       .append('rect')
       .attr('class', 'card')
       .attr('x', function (d, i) {
-        return 40 + i % 13 * 45 - 10;
+        return 40 + i % 13 * 135 - 10;
       })
+
       .attr('y', function (d, i) {
-        if (i < (cards.length - 1) * (1 / 4)) {
+        if (1<2) {
           return height * (1 / 5) - 16;
         }
         if (i > (cards.length - 1) * (1 / 4) && i < (cards.length - 1) * (2 / 4)) {
@@ -68,6 +69,7 @@ class cardVis extends D3Component {
           }
         }
       })
+
       .attr('rx', 3)
       .attr('ry', 3)
       .attr('stroke', '#444444')
@@ -80,9 +82,9 @@ class cardVis extends D3Component {
       .enter()
       .append('text')
       .attr('class', 'card-text')
-      .attr('x', function (d, i) { return 35 + i % 13 * 45; })
+      .attr('x', function (d, i) { return 35 + i % 13 * 135; })
       .attr('y', function (d, i) {
-        if (i < (cards.length - 1) * (1 / 4)) {
+        if (1<2) {
           return height * (1 / 5);
         }
         if (i > (cards.length - 1) * (1 / 4) && i < (cards.length - 1) * (2 / 4)) {
@@ -100,21 +102,12 @@ class cardVis extends D3Component {
       .attr('text-anchor', 'start')
       .attr('fill', function (d) {
         if (props.static === "True") {
-          if ((d[d.length - 1] === suits[0]) || (d[d.length - 1] === suits[1])) {
-            return 'black';
-          }
-          if ((d[d.length - 1] === suits[2]) || (d[d.length - 1] === suits[3])) {
+          
+          if (d === 'A♠') {
             return '#f44336';
           }
-        } else {
-          if (d === 'K♦') {
-            return '#FFFFFF';
-          }
-          if ((d[d.length - 1] === suits[0]) || (d[d.length - 1] === suits[1])) {
+          else{
             return 'black';
-          }
-          if ((d[d.length - 1] === suits[2]) || (d[d.length - 1] === suits[3])) {
-            return '#f44336';
           }
         }
       })
