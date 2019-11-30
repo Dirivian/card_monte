@@ -102,7 +102,7 @@ class cardVis extends D3Component {
       .attr('text-anchor', 'start')
       .attr('fill', function (d) {
         if (props.static === "True") {
-          
+
           if (d === 'A♠') {
             return '#f44336';
           }
@@ -132,43 +132,87 @@ class cardVis extends D3Component {
         // console.log('riffle', props.iterVar);
 
         function riffle(cards) {
-          let randCardIndex = Math.floor(Math.random() * cards.length);
-          let topCard = cards.shift();
-          cards.splice(randCardIndex, 0, topCard);
+          var a = cards[0]
+          var b= cards[1]
+          cards[0]= b
+          cards[1]=a
           return cards;
         }
-        cards = riffle(cards);
 
-        this.svg.selectAll('.card')
+        if (props.shuffleswitch == 0){
+            cards = cards
+        }
+        if (props.flipswitch == 1){
+          this.svg.selectAll('.card')
           .data(cards)
-          .attr('fill', function (d) {
-            if (d === 'K♦') {
-              return '#f44336';
-            } else {
-              return '#FFFFFF';
-            }
-          });
+          .transition()
+          .duration(2000)
+          .attr('fill', 'teal')
 
         this.svg.selectAll('.card-text')
           .data(cards)
+          .transition()
+          .duration(2000)
           .text(function (d) { return d; })
-          .attr('fill', function (d) {
-            if (d === 'K♦') {
-              return '#FFFFFF';
-            }
-            if ((d[d.length - 1] === suits[0]) || (d[d.length - 1] === suits[1])) {
-              return 'black';
-            }
-            if ((d[d.length - 1] === suits[2]) || (d[d.length - 1] === suits[3])) {
-              return '#f44336';
-            }
-          });
+          .style( "opacity", 0 )
+          }
+        else{
+          this.svg.selectAll('.card')
+          .data(cards)
+          .transition()
+          .duration(2000)
+          .attr('fill', 'transparent')
+
+        this.svg.selectAll('.card-text')
+          .data(cards)
+          .transition()
+          .duration(2000)
+          .text(function (d) { return d; })
+          .style( "opacity", 1 )
+        }
+
+
+        if (props.shuffleswitch == 0){
+          let randCardIndex = 2
+          let index_1 =1
+          let index_2 =0
+          this.svg.selectAll('.card')
+                  .data(cards)
+                  .transition()
+                  .duration(2000)
+                  .attr('x', function (d, i) {
+                    if (i == randCardIndex)
+                      {return 35 + i % 13 * 135;}
+                    else if (i == index_1){
+                       return  35 + index_2 % 13 * 135;
+                        }
+                    else if (i == index_2){
+                       return  35 + index_1 % 13 * 135;
+                            }
+                        })
+
+                this.svg.selectAll('.card-text')
+                  .data(cards)
+                  .transition()
+                  .duration(2000)
+                  .text(function (d) { return d; })
+                  .attr('x', function (d, i) {
+                    if (i == randCardIndex)
+                      {return 35 + i % 13 * 135;}
+                    else if (i == index_1){
+                       return  35 + index_2 % 13 * 135;
+                        }
+                    else if (i == index_2){
+                       return  35 + index_1 % 13 * 135;
+                            }
+                        })
+          }
 
         const newXValue = props.iterVar;
         const newYValue = cards.indexOf('K♦') + 1;
         // console.log('updateprops');
 
-        // Make sure you put this code in a conditional 
+        // Make sure you put this code in a conditional
         // so that it doesn't loop infinitely
         props.updateProps({
           points: props.points.concat([{
