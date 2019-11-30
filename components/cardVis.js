@@ -126,21 +126,36 @@ class cardVis extends D3Component {
 
       let lastPoint = props.points[props.points.length - 1];
 
-      if (lastPoint.y !== 1) {
+      if (lastPoint.y !== 1) {          let randCardIndex = Math.floor(Math.random() * cards.length);
         propsUpdated = true;
 
         // console.log('riffle', props.iterVar);
 
-        function riffle(cards) {
-          var a = cards[0]
-          var b= cards[1]
-          cards[0]= b
-          cards[1]=a
+        function riffle(cards, randCardIndex) {
+
+
+          if (randCardIndex == 0){
+            var index_1 =1
+            var index_2 =2
+                      }
+          else if (randCardIndex == 1){
+            var index_1 =0
+            var index_2 =2
+                      }
+          else if(randCardIndex == 2){
+            var index_1 =0
+            var index_2 =1
+           }
+           console.log(index_1, index_2 )
+
+          let a = cards[index_1]
+          cards[index_1] = cards[index_2]
+          cards[index_2] = a
           return cards;
         }
 
         if (props.shuffleswitch == 0){
-            cards = cards
+            console.log('idea')
         }
         if (props.flipswitch == 1){
           this.svg.selectAll('.card')
@@ -173,28 +188,39 @@ class cardVis extends D3Component {
 
 
         if (props.shuffleswitch == 0){
-          let randCardIndex = 2
-          let index_1 =1
-          let index_2 =0
+          console.log(cards)
+          let randCardIndex = Math.floor(Math.random() * cards.length);
+          if (randCardIndex == 0){
+            var index_1 =1
+            var index_2 =2
+                      }
+          else if (randCardIndex == 1){
+            var index_1 =0
+            var index_2 =2
+                      }
+          else if(randCardIndex == 2){
+            var index_1 =0
+            var index_2 =1
+           }
           this.svg.selectAll('.card')
                   .data(cards)
                   .transition()
-                  .duration(2000)
+                  .duration(200)
                   .attr('x', function (d, i) {
                     if (i == randCardIndex)
-                      {return 35 + i % 13 * 135;}
+                      {return 30 + i % 13 * 135;}
                     else if (i == index_1){
-                       return  35 + index_2 % 13 * 135;
+                       return  30 + index_2 % 13 * 135;
                         }
                     else if (i == index_2){
-                       return  35 + index_1 % 13 * 135;
+                       return  30 + index_1 % 13 * 135;
                             }
                         })
 
                 this.svg.selectAll('.card-text')
                   .data(cards)
                   .transition()
-                  .duration(2000)
+                  .duration(200)
                   .text(function (d) { return d; })
                   .attr('x', function (d, i) {
                     if (i == randCardIndex)
@@ -206,6 +232,20 @@ class cardVis extends D3Component {
                        return  35 + index_1 % 13 * 135;
                             }
                         })
+          cards = riffle(cards, randCardIndex)
+          console.log(cards)
+          this.svg.selectAll('.card')
+                  .data(cards)
+
+                  .attr('x', function (d, i)   {return 30 + i % 13 * 135;}
+                    )
+
+                this.svg.selectAll('.card-text')
+                  .data(cards)
+                  .text(function (d) { return d; })
+                  .attr('x', function (d, i) {
+                    return 35 + i % 13 * 135;}
+                        )
           }
 
         const newXValue = props.iterVar;

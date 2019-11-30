@@ -1,15 +1,15 @@
 [meta
   title:"Can you be good at the 3-card monte"
-  description:"Riffling from factory order to complete randomness."
+  description:"How your skill is irrelevant at the 3 card monte."
   shareImageUrl:"https://fredhohman.com/card-shuffling/static/images/share.png"
   shareImageWidth:"1600"
   shareImageHeight:"800" /]
 
 [Header
-  title:"The Math of Card Shuffling"
+  title:"Can you be good at the 3-card monte?"
   subtitle:"Riffling from factory order to complete randomness."
-  author:"Fred Hohman"
-  authorLink:"http://fredhohman.com" /]
+  author:"Jon Doe"
+ /]
 
 [Analytics google:"UA-42146340-1" /]
 
@@ -19,7 +19,7 @@
 // [image style:`{width: '100%'}` src:"static/images/smoosh.gif" /]
 // [/aside]
 
-[image style:`{width: '100%'}` src:"static/images/riffle.gif" /]
+[image style:`{width: '100%'}` src:"static/images/monte.gif" /]
 
 
 
@@ -76,7 +76,7 @@ That means there is now a [Equation]\frac{1}{52}+\frac{1}{52}=\frac{2}{52}[/Equa
 
 [var name:"iter" value:0 /]
 [var name:"flipvalue" value:0 /]
-[var name:"shufflevalue" value:0 /]
+[var name:"shufflevalue" value:1 /]
 [var name:"points" value:`[{x:0, y:52}]` /]
 [var name:"endPoints" value:`[]` /]
 
@@ -89,7 +89,7 @@ You have riffled **[Display value:iter format:"d" /]** times.
 [/aside]
 
 [cardVis iterVar:iter points:points flipswitch:flipvalue shuffleswitch:shufflevalue /]
-[var name:"shufflevalue" value:0 /]
+[var name:"shufflevalue" value:1 /]
 
 
 
@@ -97,9 +97,14 @@ You have riffled **[Display value:iter format:"d" /]** times.
 Notice how it takes many riffles to move the [card number:"K" suit:"D"/] up just a few positions, but once the [card number:"K" suit:"D"/] starts rising towards the top of the deck, it accelerates.
 
 
-On average, the [card number:"K" suit:"D"/] will reach the top position somewhere around 236 riffles.
-Since this is the *average* result, there is a chance your first shuffled deck of cards took less riffles (or many more!).
-To try again, click the **Clear** button and get riffling.
+Here is a chart of the [card number:"K" suit:"D"/]'s position in the deck for each riffle.
+Notice how it takes many riffles to move the [card number:"K" suit:"D"/] up just a few positions, but once the [card number:"K" suit:"D"/] starts rising towards the top of the deck, it accelerates.
+
+[aside]
+Once the [card number:"K" suit:"D"/] is the top card, click the **Clear** button to try again.
+[button className:"clear" onClick:`endPoints.push([{iter:iter, position:-1}, {iter:iter, position:3}]); iter=-1; points=[{x:0, y:52}]; iter++;`]Clear[/button]
+[/aside]
+[positionChart iterVal:iter points:points endPoints:endPoints /]
 
 // We can simulate this multiple times and verify that on average it takes 236 times.
 
