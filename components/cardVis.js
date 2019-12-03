@@ -8,14 +8,14 @@ const cardWidthMultiplier = 7.5;
 const cardHeightMultiplier = 10.5;
 const cardSize = 15;
 
-const cardPrimitives = ['2','A',  '3'];
-const suits = ["♠"];
+const cardPrimitives = ['Q','Q',  'Q'];
+const suits = ['♠', '♣', '♥'];
 let propsUpdated = false;
 
 function makeCards(suits, cardPrimitives) {
   let cards = [];
   for (let i = 0; i < suits.length; i++) {
-    for (let j = 0; j < cardPrimitives.length; j++) {
+    for (let j = 0; j < 1; j++) {
       cards.push(cardPrimitives[j] + suits[i]);
     }
   }
@@ -59,16 +59,16 @@ class cardVis extends D3Component {
       .attr('width', cardSize * cardWidthMultiplier)
       .attr('height', cardSize * cardHeightMultiplier)
       .attr('fill', function (d) {
-        if (props.static === "True") {
-          return '#FFFFFF'
-        } else {
-          if (d === 'K♦') {
-            return '#f44336';
+        if(props.static !== "True") {
+          if (d === 'Q♥') {
+            return '#fff7d4';
           } else {
             return '#FFFFFF';
           }
         }
-      })
+        else{return '#FFFFFF';}
+      }
+      )
 
       .attr('rx', 3)
       .attr('ry', 3)
@@ -100,18 +100,20 @@ class cardVis extends D3Component {
       // .attr('x', function(d,i) { return 20 + i*20 })
       .text(function (d) { return d; })
       .attr('text-anchor', 'start')
-      .attr('fill', function (d) {
-        if (props.static === "True") {
 
-          if (d === 'A♠') {
+      .attr('fill', function (d) {
+        
+          if (d === 'Q♥') {
             return '#f44336';
           }
           else{
             return 'black';
           }
         }
-      })
-      .style('font-size', '14px')
+      
+      )
+
+      .style('font-size', '18px')
       .style('font-weight', 700);
   }
 
@@ -161,13 +163,13 @@ class cardVis extends D3Component {
           this.svg.selectAll('.card')
           .data(cards)
           .transition()
-          .duration(2000)
+          .duration(1000)
           .attr('fill', 'teal')
 
         this.svg.selectAll('.card-text')
           .data(cards)
           .transition()
-          .duration(2000)
+          .duration(1000)
           .text(function (d) { return d; })
           .style( "opacity", 0 )
           }
@@ -176,7 +178,13 @@ class cardVis extends D3Component {
           .data(cards)
           .transition()
           .duration(2000)
-          .attr('fill', 'transparent')
+          .attr('fill', function (d) {
+              if (d === 'Q♥') {
+                return '#fff7d4';
+              } else {
+                return '#FFFFFF';
+              }
+            })
 
         this.svg.selectAll('.card-text')
           .data(cards)

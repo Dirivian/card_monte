@@ -1,14 +1,14 @@
 [meta
-  title:"Can you be good at the 3-card monte"
+  title:"Winning 3-card monte"
   description:"How your skill is irrelevant at the 3 card monte."
   shareImageUrl:"https://fredhohman.com/card-shuffling/static/images/share.png"
   shareImageWidth:"1600"
   shareImageHeight:"800" /]
 
 [Header
-  title:"Can you be good at the 3-card monte?"
-  subtitle:"Riffling from factory order to complete randomness."
-  author:"Jon Doe"
+  title:"Can you win 3-card monte?"
+  subtitle:"How a simple card game can separate skill from probability"
+  author:"Jithin George, Alex Fang, Richard Yu"
  /]
 
 [Analytics google:"UA-42146340-1" /]
@@ -25,47 +25,44 @@
 
 
 
-Riffle seven times and you'll have a sufficiently random ordering of cards, an ordering that has likely [never existed before](http://www.murderousmaths.co.uk/cardperms.htm).
-In other words, it's unlikely you'll ever shuffle two decks the same.
+You walk up to a busy city corner and spot a lone street-magician with three cards on a table.  Interested, you ask him what magic could possibly come out of these cards.  
+He flips over one of the cards and shows you a red queen of hearts.  
+
+**He proposes to you that if you can keep track of this queen of hearts ([card number:"Q" suit:"H"/]) you'll win a prize.**  [br/]
+
+Confident, you agree to the terms and in an instant he flips the cards over and shuffles the three cards multiple times, and stops, leaving you to select which card is the queen.
+
 
 [aside]
-[This paper](https://projecteuclid.org/download/pdf_1/euclid.aoap/1177005705) shows a number of other interesting card shuffling results in all their gory details.
-[/aside]
+[The wikipedia page](https://en.wikipedia.org/wiki/Three-card_Monte) for three-card monte commonly refers it as a "short con" where the magician would hire accomplices, or shills, to rig the game.  
 
-That is, using a standard deck of 52 cards, in one hand hold 51 cards and in the other hold the remaining single card.
- deck.
+This simulation aims to show how even a winning a fair game is random chance.[/aside]
 
 **So here's the question:**
 [br/]
-*How many single riffles do you have to do in order to have a completely shuffled deck?*
+*How relevant is skill in winning this game as the number of shuffles the magician makes increases?*
 
-## Theorem
-You could simulate this in a short program, which we will do towards the end, but first we can solve for the number of riffles explicitly.
+## Game Setup
+In a typical setup, three cards are laid out on a table, one of which is the "money card", in this case [card number:"Q" suit:"H"/], that if kept track of rewards a prize.  
 
-Consider an ordered deck of cards.
-[Without loss of generality](https://en.wikipedia.org/wiki/Without_loss_of_generality), let's say the suits are in the following order: [card suit:"S"/], [card suit:"C"/], [card suit:"H"/], [card suit:"D"/].
-So our ordered deck looks like this.
+Selecting one of the other two cards means you lose your bet. 
+
+Let's say the two loser cards are [card number:"Q" suit:"S"/], [card number:"Q" suit:"C"/], and as previously mentioned, the "money card" is the [card number:"Q" suit:"H"/].
+
+So the game setup looks like this:
 
 [cardVis static:"True"/]
 
-The bottom suit is [card suit:"D"/], which means the bottom card of our deck is the King of Diamonds ([card number:"K" suit:"D"/]).
-Now perform the following iteration:
+Once you see the starting position of the cards, they are flipped over to conceal their faces.  The magician proceeds to shuffle, or swap the position of any two of the three cards, and it is the player's job to select the [card number:"Q" suit:"H"/] when he finishes.
 
->Place the top card of the deck randomly inside the deck
+## Theory
+Skill in this game can be represented by a probability [Equation]p[/Equation] that you successfully track a shuffle of two cards.  That is, 
 
-This means taking the [card number:"A" suit:"S"/] and placing it randomly somewhere in the deck.
-ery riffled card has a [Equation]\frac{1}{52}[/Equation] chance of moving to any new position in the deck, that means, on average, after about 52 top card riffles, the top card will become the new bottom card.
+>the probability that you know the exact position of the winner card after the shuffle takes place.
 
-[aside]
-**Note:** notice the [card number:"K" suit:"D"/] can only rise in the deck.
-There are two cases:
-1. The top card is placed above the [card number:"K" suit:"D"/], therefore its position does not change.
-2. The top card is placed underneath the [card number:"K" suit:"D"/], therefore it rises one position closer to the top.
-[/aside]
+Random equation syntax: [Equation]\frac{1}{52}+\frac{1}{52}=\frac{2}{52}[/Equation] 
 
-Once the [card number:"K" suit:"D"/] moves up one position, upon subsequent riffles there are now two spots for the new top card to be placed underneath it.
-That means there is now a [Equation]\frac{1}{52}+\frac{1}{52}=\frac{2}{52}[/Equation] chance of a riffled card going underneath the [card number:"K" suit:"D"/].
-
+Random equation display syntax:
 [Equation display:true]
   \sum_{i=1}^{52} \frac{52}{i} = \frac{52}{1} + \frac{52}{2} + \frac{52}{3} + ... + \frac{52}{52} \approx 236
 [/Equation]
@@ -91,14 +88,7 @@ You have riffled **[Display value:iter format:"d" /]** times.
 [cardVis iterVar:iter points:points flipswitch:flipvalue shuffleswitch:shufflevalue /]
 [var name:"shufflevalue" value:1 /]
 
-
-
-[card number:"K" suit:"D"/]'s position in the deck for each riffle.
-Notice how it takes many riffles to move the [card number:"K" suit:"D"/] up just a few positions, but once the [card number:"K" suit:"D"/] starts rising towards the top of the deck, it accelerates.
-
-
-Here is a chart of the [card number:"K" suit:"D"/]'s position in the deck for each riffle.
-Notice how it takes many riffles to move the [card number:"K" suit:"D"/] up just a few positions, but once the [card number:"K" suit:"D"/] starts rising towards the top of the deck, it accelerates.
+Here is a chart.
 
 [aside]
 Once the [card number:"K" suit:"D"/] is the top card, click the **Clear** button to try again.
@@ -106,7 +96,6 @@ Once the [card number:"K" suit:"D"/] is the top card, click the **Clear** button
 [/aside]
 [positionChart iterVal:iter points:points endPoints:endPoints /]
 
-// We can simulate this multiple times and verify that on average it takes 236 times.
 
 ### Acknowledgements
 * This article was created using [a href:"https://idyll-lang.org/"]Idyll[/a].
