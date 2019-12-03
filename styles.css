@@ -20,8 +20,11 @@ a:hover {
 }
 
 .card:hover {
-	/* fill: #eeeeee; */
+	 /*fill: #eeeeee; */
+	 opacity: 0.5;
+
 }
+
 
 .hed {
 	font-size: 4rem;
